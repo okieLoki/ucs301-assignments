@@ -48,7 +48,7 @@ class Queue{
             }
             else{
                 if(front == rear){
-                    front = rear - 1;
+                    front = rear = - 1;
                 }
                 else{
                     front = front+1;
@@ -71,7 +71,7 @@ class Queue{
             }
             else{
                 cout<<"Queue: ";
-                for(int i=0; i<=rear; i++){
+                for(int i=front; i<=rear; i++){
                     cout<<arr[i]<<" ";
                 }
                 cout<<endl;
@@ -83,7 +83,6 @@ class Queue{
 int main(){
 
     Queue q(10);
-    bool flag = true;
 
     while(true){
     

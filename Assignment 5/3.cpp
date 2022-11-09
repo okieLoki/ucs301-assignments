@@ -12,8 +12,22 @@ class Queue{
             this->rear = -1;
         }
 
-        void enqueue(int value){
+        bool isEmpty(){
+            if(front == -1 && rear == -1){
+                return true;
+            }
+            return false;
+        }
+
+        bool isFull(){
             if(rear == size){
+                return true;
+            }
+            return false;
+        }
+
+        void enqueue(int value){
+            if(isFull()){
                 cout<<"Queue is full"<<endl;
             }
             else{
@@ -25,25 +39,31 @@ class Queue{
             }
         }
 
-        int dequeue(){
-            
-            int t = arr[front];
-            if(front == rear){
-                front = rear - 1;
+        void dequeue(){
+            if(isEmpty()){
+                cout<<"Queue is empty"<<endl;
             }
             else{
-                front = front+1;
+                if(front == rear){
+                    front = rear = - 1;
+                }
+                else{
+                    front = front+1;
+                }
             }
-            return t;
+        }
+
+        int returnFront(){
+            return arr[front];
         }
         
         void displayQueue(){
-            if(front == -1 && rear == -1){
+            if(isEmpty()){
                 cout<<"Queue is empty"<<endl;
             }
             else{
                 cout<<"Queue: ";
-                for(int i=0; i<=rear; i++){
+                for(int i=front; i<=rear; i++){
                     cout<<arr[i]<<" ";
                 }
                 cout<<endl;
@@ -51,60 +71,41 @@ class Queue{
         }
 };
 
-class Stack{
-    public:
-        int *arr, size, top;
+void interleavequeue(Queue &q){
+    Queue tmp(100);
 
-        Stack(int size){
-            this->size = size;
-            arr = new int[size];
-            this->top = -1;
-        }
+    int halfSize = 5;
 
-        void push(int value){
-            if(top == size){
-                return;
-            }
-            else{
-                top = top + 1;
-                arr[top] = value;
-            }
-        }
-        int pop(){
-            if(top == -1){
-                return -1;
-            }
-            else{
-                int t = arr[top];
-                top = top - 1;
-                return t;
-            }
-        }
-        bool isEmpty(){
-            if(top == -1){
-                return true;
-            }
-            return false;
-        }
-};
+    for(int i =0 ; i<halfSize; i++){
+        tmp.enqueue(q.returnFront());
+        q.dequeue();
+    }
+
+    while(!tmp.isEmpty()){
+        q.enqueue(tmp.returnFront());
+        q.enqueue(q.returnFront());
+        q.dequeue();
+        tmp.dequeue();
+    }
+}
 
 int main(){
 
-    Queue q(10);
-    Stack s(10);
+    Queue q(100);
+    q.enqueue(11);
+    q.enqueue(12);
+    q.enqueue(13);
+    q.enqueue(14);
+    q.enqueue(15);
+    q.enqueue(16);
+    q.enqueue(17);
+    q.enqueue(18);
+    q.enqueue(19);
+    q.enqueue(20);
 
-    q.enqueue(1);
-    q.enqueue(2);
-    q.enqueue(3);
-    q.enqueue(4);
-    q.enqueue(5);
-    q.enqueue(6);
-    q.enqueue(7);
-    q.enqueue(8);
-    q.enqueue(9);
-    q.enqueue(10);
+    q.displayQueue();
 
-
+    interleavequeue(q);
 
     q.displayQueue();
 
